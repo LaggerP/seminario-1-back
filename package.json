@@ -4,16 +4,25 @@
   "description": "seminario backend app",
   "main": "index.js",
   "scripts": {
+    "start": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/LaggerP/seminario-1-back.git"
   },
-  "author": "",
+  "author": "Grupo 2",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/LaggerP/seminario-1-back/issues"
   },
-  "homepage": "https://github.com/LaggerP/seminario-1-back#readme"
+  "homepage": "https://github.com/LaggerP/seminario-1-back#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "morgan": "^1.10.0",
+    "mysql2": "^2.2.5",
+    "sequelize": "^6.3.5"
+  }
 }
