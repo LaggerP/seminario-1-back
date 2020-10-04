@@ -1,4 +1,7 @@
-/* Controllers */
+// Middlewares
+const middleToken = require ('../auth/authToken');
+
+// Controllers
 const userController = require('../controllers/UserController');
 
 
@@ -9,6 +12,6 @@ module.exports = (app) => {
 
    // User endpoint
    app.post('/api/user/register', userController.register)
-   app.get('/api/user/getUser/:id', userController.findAllUserData);
-   app.get('/api/user/list', userController.list);
+   app.get('/api/user/getUser/:id', middleToken.verifyToken, userController.findAllUserData);
+   app.get('/api/user/list', middleToken.verifyToken, userController.list);
 };

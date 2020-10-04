@@ -9,6 +9,7 @@ module.exports = {
       jwt.verify(token, SECRET, (err) => {
          if (err) {
             res.status(500).json({ error: "Not Authorized" });
+            console.log("Token vencido o incorrecto")
          } else {
             next();
          }
