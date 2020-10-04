@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   User_profile.init({
-    //user_id: DataTypes.INTEGER,
+    user_id: DataTypes.INTEGER,
     username: DataTypes.STRING,
     firstname: DataTypes.STRING,
     lastname: DataTypes.STRING,
