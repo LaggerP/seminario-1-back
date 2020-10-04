@@ -22,7 +22,6 @@ module.exports = {
 				},
 			})
 			.then(async user => {
-				initialRankSave(req.body.username)
 				let registerToken = await auth.registerUser(user)
 				return res.status(200).json({ token: registerToken, message: "Succesfully Created User" })
 			})

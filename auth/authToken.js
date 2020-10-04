@@ -27,7 +27,7 @@ module.exports = {
          // Create token of existing user
          let token = jwt.sign({
             id: _details.id
-         }, process.env.SECRET || DEV_SECRET, {
+         }, SECRET, {
             expiresIn: 86400 // expires in 24 hours
          });
          return token;
@@ -42,7 +42,7 @@ module.exports = {
          // Creating token for new user
          var token = jwt.sign({
             id: user.id
-         }, process.env.SECRET || DEV_SECRET, {
+         }, SECRET, {
             expiresIn: 86400 // expires in 24 hours
          });
          return token;
