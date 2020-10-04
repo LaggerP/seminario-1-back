@@ -24,4 +24,7 @@ module.exports = {
     dialect: 'mysql',
     operatorsAliases: '0',
   },
+  
+  DEV_SECRET: 'secret-key',
+  BCRYPT_ROUNDS: 10
 };

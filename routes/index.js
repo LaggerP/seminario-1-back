@@ -1,5 +1,5 @@
 /* Controllers */
-const usuarioController = require('../controllers/UserController');
+const userController = require('../controllers/UserController');
 
 
 module.exports = (app) => {
@@ -7,5 +7,8 @@ module.exports = (app) => {
       message: 'Example project did not give you access to the api web services',
    }));
 
-   app.get('/api/usuario/list', usuarioController.findAllData);
+   // User endpoint
+   app.post('/api/user/register', userController.register)
+   app.get('/api/user/getUser/:id', userController.findAllUserData);
+   app.get('/api/user/list', userController.list);
 };

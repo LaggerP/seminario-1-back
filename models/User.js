@@ -12,14 +12,14 @@ module.exports = (sequelize, DataTypes) => {
     username: DataTypes.STRING,
     password: DataTypes.STRING,
     email: DataTypes.STRING,
-    fistname: DataTypes.STRING,
+    firstname: DataTypes.STRING,
     lastname: DataTypes.STRING,
     role_id: DataTypes.INTEGER,
     status: DataTypes.CHAR
   }, {
     sequelize,
     modelName: 'User',
-    timestamps:true,
+    timestamps: true,
   });
   return User;
 };
