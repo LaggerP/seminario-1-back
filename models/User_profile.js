@@ -10,14 +10,13 @@ module.exports = (sequelize, DataTypes) => {
   };
   User_profile.init({
     user_id: DataTypes.INTEGER,
-    username: DataTypes.STRING,
+    profile_name: DataTypes.STRING,
     firstname: DataTypes.STRING,
     lastname: DataTypes.STRING,
     status: DataTypes.CHAR
   }, {
     sequelize,
     modelName: 'User_profile',
-    timestamps:true,
 
   });
   return User_profile;

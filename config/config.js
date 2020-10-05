@@ -1,7 +1,7 @@
 module.exports = {
   development: {
     username: 'root',
-    password: null || 'mysql',
+    password: null,
     database: 'sip_development_back',
     host: '127.0.0.1',
     port: 3306,

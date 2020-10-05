@@ -1,8 +1,10 @@
 // Middlewares
-const middleToken = require ('../auth/authToken');
+const middleToken = require ('../auth/authToken').verifyToken;
 
 // Controllers
 const userController = require('../controllers/UserController');
+const userProfileController = require ('../controllers/UserProfileController');
+const historyProfile = require ('../controllers/HistoryProfileExerciseController');
 
 
 module.exports = (app) => {
@@ -10,8 +12,17 @@ module.exports = (app) => {
       message: 'Example project did not give you access to the api web services',
    }));
 
-   // User endpoint
+   // User endpoints
    app.post('/api/user/register', userController.register)
-   app.get('/api/user/getUser/:id', middleToken.verifyToken, userController.findAllUserData);
-   app.get('/api/user/list', middleToken.verifyToken, userController.list);
+   app.get('/api/user/getUser/:id', middleToken, userController.findAllUserData);
+   app.get('/api/user/list', middleToken, userController.list);
+
+   // User Profile endpoints
+   app.post('/api/profile/create', userProfileController.create);
+   app.get('/api/profile/list', userProfileController.list);
+
+
+   // History Profile-Exercise endpoints
+   app.post('/api/history/new', historyProfile.create);
+   app.get('/api/history/list', historyProfile.list);
 };
