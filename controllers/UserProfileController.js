@@ -8,9 +8,10 @@ module.exports = {
          profile_name: req.body.username,
          firstname: req.body.firstname,
          lastname: req.body.lastname,
+         benefits_points: 0
       })
-         .then(async profile => {
-            res.status(200).send(profile)
+         .then(profile => {
+            res.status(200).json({ data: `${profile.profile_name} was created` })
          })
          .catch(error => res.status(400).send(error))
    },

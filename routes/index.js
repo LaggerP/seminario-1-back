@@ -4,6 +4,8 @@ const middleToken = require ('../auth/authToken').verifyToken;
 // Controllers
 const userController = require('../controllers/UserController');
 const userProfileController = require ('../controllers/UserProfileController');
+const benefitsController = require('../controllers/BenefitsController');
+
 const historyProfile = require ('../controllers/HistoryProfileExerciseController');
 
 
@@ -25,4 +27,8 @@ module.exports = (app) => {
    // History Profile-Exercise endpoints
    app.post('/api/history/new', historyProfile.create);
    app.get('/api/history/list', historyProfile.list);
+
+
+   // Benefits endpoints
+   app.get('/api/benefits/list', benefitsController.list);
 };

@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
     profile_name: DataTypes.STRING,
     firstname: DataTypes.STRING,
     lastname: DataTypes.STRING,
+    benefits_points: DataTypes.FLOAT,
     status: DataTypes.CHAR
   }, {
     sequelize,

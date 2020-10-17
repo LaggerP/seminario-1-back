@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Exercise.init({
-    exercise_type: DataTypes.INTEGER,
+    exercise_type_id: DataTypes.INTEGER,
     name: DataTypes.STRING,
     description: DataTypes.STRING,
     status: DataTypes.CHAR

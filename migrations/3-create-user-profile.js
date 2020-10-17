@@ -28,6 +28,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING
       },
+      benefits_points: {
+        allowNull: false,
+        type: Sequelize.FLOAT
+      },
       status: {
         allowNull: false,
         type: Sequelize.CHAR
