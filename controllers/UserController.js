@@ -30,6 +30,22 @@ module.exports = {
          })
          .catch(error => res.status(400).json({ error: error, message: "Register error" }))
    },
+   async login(req, res) {
+      return user
+      .findOne({ where: 
+         { username: req.body.username } 
+      }).then (user => {
+         const {password, _role_id} = user.dataValues
+         if (password === req.body.password ){
+
+            return res.status(200).json({status: 200, msg: "sesion iniciada"})
+         } else {
+            res.status(400).json({status: 400, error: "usuario o contraseña incorrecta"})
+         }
+
+      }).catch(error => res.status(400).json({status: 400, error: "usuario o contraseña incorrecta"}));
+	
+	},
    async list(_, res) {
       return user.findAll({})
          .then(user => res.status(200).send(user))

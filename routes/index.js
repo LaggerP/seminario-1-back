@@ -14,6 +14,7 @@ module.exports = (app) => {
 
    // User endpoints
    app.post('/api/user/register', userController.registerResponsable)
+   app.post('/api/user/login', userController.login)
    app.get('/api/user/getUser/:id', middleToken, userController.findAllUserData);
    app.get('/api/user/list', middleToken, userController.list);
 
