@@ -2,12 +2,14 @@ const Sequelize = require('sequelize');
 const userProfile = require('../models').User_profile;
 
 module.exports = {
-   create(req, res) {
+   createProfile(profileData) {
       return userProfile.create({
-         user_id: req.body.user_id,
-         profile_name: req.body.username,
-         firstname: req.body.firstname,
-         lastname: req.body.lastname,
+         user_id: profileData.user_id,
+         dni: profileData.dni,
+         birthday: profileData.birthday,
+         profile_name: profileData.username,
+         firstname: profileData.firstname,
+         lastname: profileData.lastname,
          benefits_points: 0
       })
          .then(profile => {
@@ -16,9 +18,16 @@ module.exports = {
          .catch(error => res.status(400).send(error))
    },
    list(_, res) {
-      console.log("hola")
       return userProfile.findAll({})
          .then(user => res.status(200).send(user))
          .catch(error => res.status(400).send(error))
+   },
+   updateProfilePoints (req, res) {
+      return userProfile.update({benefits_points: req.body.points},{ where: { profile_name: req.body.profile_name } })
+      .then(async newPoints => {
+         console.log(newPoints);
+         res.status(200).send("Profile Points was updated");
+      })
+      .catch(error => res.status(400).send(error))
    }
 };

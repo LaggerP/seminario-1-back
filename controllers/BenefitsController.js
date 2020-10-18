@@ -3,8 +3,8 @@ const benefits = require ('../models').Benefits
 module.exports = {
    list(_, res) {
       return benefits.findAll({})
-         .then(user => res.status(200).send(user))
+         .then(benefits => res.status(200).send(benefits))
          .catch(error => res.status(400).send(error))
-   },
+   }
    
 };

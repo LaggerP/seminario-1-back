@@ -1,12 +1,13 @@
 const Sequelize = require('sequelize');
 const user = require('../models').User;
+const profile = require('../models').User_profile;
 const auth = require('../auth/authToken');
 const bcrypt = require("bcrypt");
 const roleController = require('./RoleController');
 const BCRYPT_ROUNDS = process.env.BCRYPT_ROUNDS || require('../config/config.js').BCRYPT_ROUNDS
 
 module.exports = {
-   register(req, res) {
+   registerResponsable(req, res) {
       return user
          .findOrCreate({
             where: {
@@ -14,16 +15,18 @@ module.exports = {
             },
             defaults: {
                username: req.body.username,
-               password: bcrypt.hashSync(req.body.password, BCRYPT_ROUNDS),
+               password: "paciente",
                email: req.body.email,
-               firstname: req.body.firstname,
-               lastname: req.body.lastname,
-               role_id: req.body.role_id
+               firstname: req.body.first_name,
+               lastname: req.body.last_name,
+               role_id: 3
             },
          })
          .then(async user => {
-            let registerToken = await auth.registerUser(user)
-            return res.status(200).json({ token: registerToken, message: `User: ${user.username} created` })
+            const currentProfile = req.body.profiles
+            currentProfile.user_id = user[0].dataValues.id;
+            await profile.createProfile(currentProfile, user)
+            return res.status(200).send("user created")
          })
          .catch(error => res.status(400).json({ error: error, message: "Register error" }))
    },

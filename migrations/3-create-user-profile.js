@@ -16,6 +16,10 @@ module.exports = {
           key: 'id'
         },
       },
+      dni: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
       profile_name: {
         allowNull: false,
         type: Sequelize.STRING
@@ -31,6 +35,10 @@ module.exports = {
       benefits_points: {
         allowNull: false,
         type: Sequelize.FLOAT
+      },
+      birthday: {
+        allowNull: false,
+        type: Sequelize.DATE
       },
       status: {
         allowNull: false,
