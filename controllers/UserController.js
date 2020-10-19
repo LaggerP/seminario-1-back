@@ -4,6 +4,7 @@ const profile = require('../models').User_profile;
 const auth = require('../auth/authToken');
 const bcrypt = require("bcrypt");
 const roleController = require('./RoleController');
+const profileController = require ('../controllers/UserProfileController');
 const BCRYPT_ROUNDS = process.env.BCRYPT_ROUNDS || require('../config/config.js').BCRYPT_ROUNDS
 
 module.exports = {
@@ -23,10 +24,13 @@ module.exports = {
             },
          })
          .then(async user => {
+
             const currentProfile = req.body.profiles
             currentProfile.user_id = user[0].dataValues.id;
-            await profile.createProfile(currentProfile, user)
+            console.log(currentProfile)
+            await profileController.createProfile(currentProfile)
             return res.status(200).send("user created")
+
          })
          .catch(error => res.status(400).json({ error: error, message: "Register error" }))
    },

@@ -2,7 +2,8 @@ const Sequelize = require('sequelize');
 const userProfile = require('../models').User_profile;
 
 module.exports = {
-   createProfile(profileData) {
+   createProfile(profileData, res) {
+      console.log(profileData)
       return userProfile.create({
          user_id: profileData.user_id,
          dni: profileData.dni,
@@ -11,8 +12,7 @@ module.exports = {
          firstname: profileData.firstname,
          lastname: profileData.lastname,
          benefits_points: 0
-      })
-         .then(profile => {
+      }).then(profile => {
             res.status(200).json({ data: `${profile.profile_name} was created` })
          })
          .catch(error => res.status(400).send(error))
