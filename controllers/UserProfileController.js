@@ -8,7 +8,7 @@ module.exports = {
          user_id: profileData.user_id,
          dni: profileData.dni,
          birthday: profileData.birthday,
-         profile_name: profileData.username,
+         profile_name: profileData.profile_name,
          firstname: profileData.firstname,
          lastname: profileData.lastname,
          benefits_points: 0
