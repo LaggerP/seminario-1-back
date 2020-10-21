@@ -23,7 +23,27 @@ module.exports = {
         type: Sequelize.DATE
       }
     });
+
+    await queryInterface.bulkInsert("Roles", [
+      {
+        id: 1,
+        rol: "Admin",
+      },
+      {
+        id: 2,
+        rol: "Medico",
+      },
+      {
+        id: 3,
+        rol: "Responsable",
+      },
+      {
+        id: 4,
+        rol: "Paciente",
+      }
+    ], {});
   },
+
   down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable('Roles');
   }

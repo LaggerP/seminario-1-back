@@ -2,20 +2,22 @@ const Sequelize = require('sequelize');
 const userProfile = require('../models').User_profile;
 
 module.exports = {
-   createProfile(profileData, res) {
-      console.log(profileData)
-      return userProfile.create({
-         user_id: profileData.user_id,
-         dni: profileData.dni,
-         birthday: profileData.birthday,
-         profile_name: profileData.profile_name,
-         firstname: profileData.firstname,
-         lastname: profileData.lastname,
-         benefits_points: 0
-      }).then(profile => {
-            res.status(200).json({ data: `${profile.profile_name} was created` })
-         })
-         .catch(error => res.status(400).send(error))
+   async createProfile(req, res) {
+      try {
+         return await userProfile.create({
+            user_id: req.user_id,
+            dni: req.dni,
+            birthday: req.birthday,
+            profile_name: req.profile_name,
+            firstname: req.firstname,
+            lastname: req.lastname,
+            benefits_points: 0
+         });
+         console.log(profileCollection)
+         //res.status(201).json({ data: `${profileCollection.dataValues.profile_name} was created` })
+      } catch (e) {
+         res.status(400).send(e)
+      }
    },
    list(_, res) {
       return userProfile.findAll({})
