@@ -29,4 +29,6 @@ module.exports = (app) => {
 
    // Benefits endpoints
    app.get('/api/benefits/list', benefitsController.list);
+
+   
 };
