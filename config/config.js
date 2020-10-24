@@ -26,5 +26,8 @@ module.exports = {
   },
   
   DEV_SECRET: 'secret-key',
-  BCRYPT_ROUNDS: 10
+  BCRYPT_ROUNDS: 10,
+  ADMIN_ROLE: 1,
+  MEDIC_ROLE: 2,
+  PATIENT_ROLE: 3
 };
