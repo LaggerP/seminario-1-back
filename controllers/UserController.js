@@ -11,6 +11,10 @@ const generator = require('generate-password');
 
 module.exports = {
    async asyncregisterResponsable(req, res) {
+      const _user = await user.findOne({where: {username: req.body.username}});
+
+      if (_user !== null) return res.status(409).send({status: 'register error', msg: "username already exist"})
+      
       try {
          const _generatedPwd = await generator.generate({
             length: 10,
@@ -48,21 +52,27 @@ module.exports = {
       catch (e) {
          res.status(400).send(e);
       }
+      
    },
    async login(req, res) {
-
-      let user = {
+      const _userData = {
          username: req.body.username,
          password: req.body.password,
       }
+
       try {
+         const _user = await user.findOne({where: {username: _userData.username}});
+
          // get token from user (if exists)
-         let loginToken = await auth.loginUser(user);
-         console.log(loginToken)
-         return res.status(200).json({ token: loginToken, message: "Success login" })
+         const _loginToken = await auth.loginUser(_userData);
+
+         // get all profiles associated to user account
+         const _profiles =  await profileController.getAllProfilesByUser(_user.dataValues.id)
+
+         return res.status(200).json({ profiles: _profiles, token: _loginToken, msg: "Success login" })
       }
       catch (e) {
-         return res.status(400).json({ status: 400, message: "Invalid username or password" })
+         return res.status(400).json({ status: 400, msg: "Invalid username or password" })
       }
    },
    async list(_, res) {
