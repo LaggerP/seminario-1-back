@@ -7,6 +7,7 @@ const roleController = require('./RoleController');
 const mailerController = require('./mailer/MailerControlles');
 const profileController = require('../controllers/UserProfileController');
 const BCRYPT_ROUNDS = process.env.BCRYPT_ROUNDS || require('../config/config.js').BCRYPT_ROUNDS
+const { ADMIN_ROLE, MEDIC_ROLE, PATIENT_ROLE } = require('../config/config.js')
 const generator = require('generate-password');
 
 module.exports = {
@@ -62,14 +63,16 @@ module.exports = {
 
       try {
          const _user = await user.findOne({where: {username: _userData.username}});
-
          // get token from user (if exists)
          const _loginToken = await auth.loginUser(_userData);
 
+         if (_user.dataValues.role_id === PATIENT_ROLE) {
          // get all profiles associated to user account
-         const _profiles =  await profileController.getAllProfilesByUser(_user.dataValues.id)
+            const _profiles =  await profileController.getAllProfilesByUser(_user.dataValues.id)
+            return res.status(200).json({ profiles: _profiles, token: _loginToken, msg: "Success login", rol: _user.dataValues.role_id })
+         }
 
-         return res.status(200).json({ profiles: _profiles, token: _loginToken, msg: "Success login" })
+         return res.status(200).json({ token: _loginToken, msg: "Success login", rol: _user.dataValues.role_id })
       }
       catch (e) {
          return res.status(400).json({ status: 400, msg: "Invalid username or password" })
