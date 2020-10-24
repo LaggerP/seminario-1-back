@@ -20,7 +20,6 @@ module.exports = (app) => {
 
    // User Profile endpoints
    app.post('/api/profile/create', userProfileController.createProfile);
-   app.get('/api/profile/list', userProfileController.list);
    app.post('/api/profile/update_points', userProfileController.updateProfilePoints);
 
    // History Profile-Exercise endpoints

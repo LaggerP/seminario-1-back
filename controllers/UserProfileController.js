@@ -13,16 +13,18 @@ module.exports = {
             lastname: req.lastname,
             benefits_points: 0
          });
-         console.log(profileCollection)
-         //res.status(201).json({ data: `${profileCollection.dataValues.profile_name} was created` })
+         res.status(201).json({ data: `${profileCollection.dataValues.profile_name} was created` })
       } catch (e) {
          res.status(400).send(e)
       }
    },
-   list(_, res) {
-      return userProfile.findAll({})
-         .then(user => res.status(200).send(user))
-         .catch(error => res.status(400).send(error))
+   getAllProfilesByUser(id) {
+      return userProfile.findAll({where: {user_id: id}})
+      .then((profile) => {
+         let _profiles = [];
+         profile.map(data => _profiles.push(data.dataValues));
+         return _profiles
+      })
    },
    updateProfilePoints (req, res) {
       return userProfile.update({benefits_points: req.body.points},{ where: { profile_name: req.body.profile_name } })
