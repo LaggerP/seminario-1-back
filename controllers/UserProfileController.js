@@ -25,13 +25,14 @@ module.exports = {
          profile.map(data => _profiles.push(data.dataValues));
          return _profiles
       })
-   },
-   updateProfilePoints (req, res) {
-      return userProfile.update({benefits_points: req.body.points},{ where: { profile_name: req.body.profile_name } })
-      .then(async newPoints => {
-         console.log(newPoints);
-         res.status(200).send("Profile Points was updated");
-      })
       .catch(error => res.status(400).send(error))
-   }
+   },
+   updateProfilePoints (dataToUpdate, res) {
+      const {profile_points, necessary_points, id_profile} = dataToUpdate
+      if (profile_points - necessary_points < 0) return res.status(409).send({status: 'benefit update error', msg: "insufficient points"})
+      return userProfile.update({benefits_points: profile_points - necessary_points },{ where: { id: id_profile } })
+      .then(async profilePointUpdated => profilePointUpdated)
+      .catch(error => res.status(400).send(error))
+   },
+
 };
