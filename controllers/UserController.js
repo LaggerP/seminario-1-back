@@ -37,7 +37,7 @@ module.exports = {
          }
 
          // send username and password to user account
-         await mailerController.sendEmail(dataToSend)
+         await mailerController.sendRegisterEmail(dataToSend)
 
          const currentProfile = req.body.profiles
          if (Object.keys(currentProfile).length !== 0 || currentProfile.length > 0) {

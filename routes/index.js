@@ -20,7 +20,6 @@ module.exports = (app) => {
 
    // User Profile endpoints
    app.post('/api/profile/create', userProfileController.createProfile);
-   app.post('/api/profile/update_points', userProfileController.updateProfilePoints);
 
    // History Profile-Exercise endpoints
    app.post('/api/history/new', historyProfile.create);
@@ -28,6 +27,7 @@ module.exports = (app) => {
 
    // Benefits endpoints
    app.get('/api/benefits/list', benefitsController.list);
+   app.post('/api/benefits/redeem', benefitsController.redeemBenefit);
 
    
 };
