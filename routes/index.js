@@ -5,6 +5,7 @@ const middleToken = require ('../auth/authToken').verifyToken;
 const userController = require('../controllers/UserController');
 const userProfileController = require ('../controllers/UserProfileController');
 const benefitsController = require('../controllers/BenefitsController');
+const administrarController = require('../controllers/AdministrarController');
 const historyProfile = require ('../controllers/HistoryProfileExerciseController');
 
 module.exports = (app) => {
@@ -20,6 +21,10 @@ module.exports = (app) => {
 
    // User Profile endpoints
    app.post('/api/profile/create', userProfileController.createProfile);
+
+   // Medico Responsable administrar view endpoints
+   app.get('/api/administrar/list/:id', administrarController.listByMedicId);
+   app.post('/api/administrar/update', administrarController.updatePatient);
 
    // History Profile-Exercise endpoints
    app.post('/api/history/new', historyProfile.create);

@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize');
 const user = require('../models').User;
+const medicoResponsable = require('../models').Medico_responsable;
 const profile = require('../models').User_profile;
 const auth = require('../auth/authToken');
 const bcrypt = require("bcrypt");
@@ -30,6 +31,11 @@ module.exports = {
             lastname: req.body.last_name,
             role_id: 3
          });
+
+         const _medicoResponsable = await medicoResponsable.create({
+            medico_id: req.body.medicDBId,
+            responsable_id: userCollection.dataValues.id
+         })
 
          let dataToSend = {
             email: userCollection.dataValues.email,
@@ -69,10 +75,10 @@ module.exports = {
          if (_user.dataValues.role_id === PATIENT_ROLE) {
          // get all profiles associated to user account
             const _profiles =  await profileController.getAllProfilesByUser(_user.dataValues.id)
-            return res.status(200).json({ profiles: _profiles, token: _loginToken, msg: "Success login", rol: _user.dataValues.role_id })
+            return res.status(200).json({ profiles: _profiles, token: _loginToken, msg: "Success login", rol: _user.dataValues.role_id, id: _user.dataValues.id })
          }
 
-         return res.status(200).json({ token: _loginToken, msg: "Success login", rol: _user.dataValues.role_id })
+         return res.status(200).json({ token: _loginToken, msg: "Success login", rol: _user.dataValues.role_id, id: _user.dataValues.id })
       }
       catch (e) {
          return res.status(400).json({ status: 400, msg: "Invalid username or password" })
