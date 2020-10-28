@@ -15,10 +15,17 @@ module.exports = {
           key: 'id'
         },
       },
-      exercise_id: {
+      exercise_reading_id: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'Exercises',
+          model: 'Exercise_reading',
+          key: 'id'
+        },
+      },
+      exercise_counting_id: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Exercise_counter',
           key: 'id'
         },
       },

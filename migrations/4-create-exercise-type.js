@@ -9,7 +9,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       type: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
       status: {
         type: Sequelize.CHAR
@@ -23,6 +23,17 @@ module.exports = {
         type: Sequelize.DATE
       }
     });
+
+    await queryInterface.bulkInsert("Exercise_types", [
+      {
+        id: 1,
+        type:"Contador"
+      },
+      {
+        id: 2,
+        type:"Lectura"
+      },
+    ], {});
   },
   down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable('Exercise_types');
