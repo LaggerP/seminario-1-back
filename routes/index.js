@@ -25,6 +25,9 @@ module.exports = (app) => {
    // Medico Responsable administrar view endpoints
    app.get('/api/administrar/list/:id', administrarController.listByMedicId);
    app.post('/api/administrar/update', administrarController.updatePatient);
+   app.get('/api/administrar/exercises', administrarController.getAllExercises);
+   app.post('/api/administrar/setExercises', administrarController.assignExercises);
+
 
    // History Profile-Exercise endpoints
    app.post('/api/history/new', historyProfile.create);
@@ -33,6 +36,8 @@ module.exports = (app) => {
    // Benefits endpoints
    app.get('/api/benefits/list', benefitsController.list);
    app.post('/api/benefits/redeem', benefitsController.redeemBenefit);
+
+
 
    
 };
