@@ -13,7 +13,6 @@ module.exports = {
             lastname: req.lastname,
             benefits_points: 0
          });
-         res.status(201).json({ data: `${profileCollection.dataValues.profile_name} was created` })
       } catch (e) {
          res.status(400).send(e)
       }
