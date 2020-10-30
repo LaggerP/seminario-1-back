@@ -1,18 +1,21 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Exercise_types', {
+    await queryInterface.createTable('exercise_reading_profiles', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      type: {
-        type: Sequelize.STRING
+      exercise_id: {
+        type: Sequelize.INTEGER
+      },
+      profile_id: {
+        type: Sequelize.INTEGER
       },
       status: {
-        type: Sequelize.CHAR
+        type: Sequelize.BOOLEAN
       },
       createdAt: {
         allowNull: false,
@@ -23,19 +26,8 @@ module.exports = {
         type: Sequelize.DATE
       }
     });
-
-    await queryInterface.bulkInsert("Exercise_types", [
-      {
-        id: 1,
-        type:"Contador"
-      },
-      {
-        id: 2,
-        type:"Lectura"
-      },
-    ], {});
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('Exercise_types');
+    await queryInterface.dropTable('exercise_reading_profiles');
   }
 };

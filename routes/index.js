@@ -6,8 +6,10 @@ const userController = require('../controllers/UserController');
 const userProfileController = require ('../controllers/UserProfileController');
 const benefitsController = require('../controllers/BenefitsController');
 const administrarController = require('../controllers/AdministrarController');
+const exercisesController = require ('../controllers/ExercisesController')
 const historyProfile = require ('../controllers/HistoryProfileExerciseController');
 const consejosController = require('../controllers/ConsejosController');
+
 
 module.exports = (app) => {
    app.get('/api', (req, res) => res.status(200).send({
@@ -26,6 +28,9 @@ module.exports = (app) => {
    // Medico Responsable administrar view endpoints
    app.get('/api/administrar/list/:id', administrarController.listByMedicId);
    app.post('/api/administrar/update', administrarController.updatePatient);
+   app.get('/api/administrar/exercises', administrarController.getAllExercises);
+   app.post('/api/administrar/setExercises', administrarController.assignExercises);
+
 
    // History Profile-Exercise endpoints
    app.post('/api/history/new', historyProfile.create);
@@ -40,5 +45,10 @@ module.exports = (app) => {
    app.post('/api/consejos/update', consejosController.updateConsejo);
    app.post('/api/consejos/delete', consejosController.deleteConsejo);
    app.post('/api/consejos/create', consejosController.createConsejo);
+
+   // Exercises endpoinst
+   app.get('/api/exercises/exerciseByProfileId/:id', exercisesController.getExercisesByProfile);
+   app.post('/api/exercises/updateStatus', exercisesController.updateStatus);
+
    
 };
