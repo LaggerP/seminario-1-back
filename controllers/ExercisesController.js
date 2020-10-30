@@ -9,23 +9,27 @@ const exerciseReadingProfile = require('../models').Exercise_reading_profile;
 
 module.exports = {
    async getExercisesByProfile(req, res) {
-      let assignedExercisesIds = [];
+      let countingExercisesIds = [];
+      let readingExercisesIds = [];
+
       let profileExercises = [];
       const _countingExercisesByProfile = await exerciseCountingProfile.findAll({ where: { profile_id: req.params.id } })
       await _countingExercisesByProfile.map(data => {
-         assignedExercisesIds.push({exercise_id: data.dataValues.exercise_id, status: data.dataValues.status})
+         countingExercisesIds.push({exercise_id: data.dataValues.exercise_id, status: data.dataValues.status})
       })
 
       const _readingExercisesByProfile = await exerciseReadingProfile.findAll({ where: { profile_id: req.params.id } })
       await _readingExercisesByProfile.map(data => {
-         assignedExercisesIds.push({exercise_id: data.dataValues.exercise_id, status: data.dataValues.status})
+         readingExercisesIds.push({exercise_id: data.dataValues.exercise_id, status: data.dataValues.status})
       })
 
       try {
+         // Mapea y devuelve todos los ejercicios 'Contador' que tiene asignado el perfil
          const counterModule = await exerciseCounter.findAll({});
-         const readingModule = await exerciseReading.findAll({});
          await counterModule.map(async exercise => {
-            await assignedExercisesIds.map (data => {
+            console.log("ejercicio", exercise.dataValues.id)
+            await countingExercisesIds.map (data => {
+            console.log("profile exercise", data)
                if (data.exercise_id === exercise.dataValues.id) {
                   exercise.dataValues.module = "Contador";
                   exercise.dataValues.finished = data.status
@@ -34,8 +38,10 @@ module.exports = {
             })
          })
 
+         // Mapea y devuelve todos los ejercicios 'Lectura' que tiene asignado el perfil
+         const readingModule = await exerciseReading.findAll({});
          await readingModule.map(async exercise => {
-            await assignedExercisesIds.map (data => {
+            await readingExercisesIds.map (data => {
                if (data.exercise_id === exercise.dataValues.id) {
                   exercise.dataValues.module = "Lectura";
                   exercise.dataValues.finished = data.status
