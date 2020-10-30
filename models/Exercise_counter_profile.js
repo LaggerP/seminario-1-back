@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
   Exercise_counter_profile.init({
     exercise_id: DataTypes.INTEGER,
     profile_id: DataTypes.INTEGER,
-    status: DataTypes.CHAR
+    status: DataTypes.BOOLEAN
   }, {
     sequelize,
     modelName: 'Exercise_counter_profile',

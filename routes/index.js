@@ -41,6 +41,8 @@ module.exports = (app) => {
 
    // Exercises endpoinst
    app.get('/api/exercises/exerciseByProfileId/:id', exercisesController.getExercisesByProfile);
+   app.post('/api/exercises/updateStatus', exercisesController.updateStatus);
+
    
 
 
