@@ -8,6 +8,7 @@ const benefitsController = require('../controllers/BenefitsController');
 const administrarController = require('../controllers/AdministrarController');
 const exercisesController = require ('../controllers/ExercisesController')
 const historyProfile = require ('../controllers/HistoryProfileExerciseController');
+const consejosController = require('../controllers/ConsejosController');
 
 
 module.exports = (app) => {
@@ -39,13 +40,15 @@ module.exports = (app) => {
    app.get('/api/benefits/list', benefitsController.list);
    app.post('/api/benefits/redeem', benefitsController.redeemBenefit);
 
+   // Consejos endpoints
+   app.get('/api/consejos/list', consejosController.list);
+   app.post('/api/consejos/update', consejosController.updateConsejo);
+   app.post('/api/consejos/delete', consejosController.deleteConsejo);
+   app.post('/api/consejos/create', consejosController.createConsejo);
+
    // Exercises endpoinst
    app.get('/api/exercises/exerciseByProfileId/:id', exercisesController.getExercisesByProfile);
    app.post('/api/exercises/updateStatus', exercisesController.updateStatus);
-
-   
-
-
 
    
 };
