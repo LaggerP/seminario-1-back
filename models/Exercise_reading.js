@@ -17,7 +17,6 @@ module.exports = (sequelize, DataTypes) => {
     exercise_type_id: DataTypes.INTEGER,
     name: DataTypes.STRING,
     description: DataTypes.STRING,
-    timer: DataTypes.INTEGER,
     status: DataTypes.CHAR
   }, {
     sequelize,

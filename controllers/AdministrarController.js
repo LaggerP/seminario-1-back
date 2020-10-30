@@ -4,8 +4,12 @@ const user = require('../models').User;
 const userProfile = require('../models').User_profile;
 const medicoResponsable = require('../models').Medico_responsable;
 const exerciseCounter = require('../models').Exercise_counter;
+const exerciseReading = require('../models').Exercise_reading;
+
 
 const exerciseCountingProfile = require('../models').Exercise_counter_profile;
+const exerciseReadingProfile = require('../models').Exercise_reading_profile;
+
 
 const profileController = require('../controllers/UserProfileController')
 
@@ -58,6 +62,14 @@ module.exports = {
             }
 
          } else if (option.module === 'Lectura') {
+            try {
+               const created = await exerciseReadingProfile.create({
+                  exercise_id: option.value,
+                  profile_id: profile_id
+               })
+            } catch {
+               res.status(400).send({msg: 'error with assignExercises', status: 400})
+            }
          } else {
             res.status(400).send({msg: 'error with assignExercises, all exist!', status: 400})
          }
@@ -66,12 +78,17 @@ module.exports = {
    },
    async getAllExercises(_, res) {
       const counterModule = await exerciseCounter.findAll({});
+      const readingModule = await exerciseReading.findAll({});
       let exercises = {
          modules: [
             {
                moduleName: "Contador",
                exercises: counterModule
             },
+            {
+               moduleName: "Lectura",
+               exercises: readingModule,
+            }
          ]
       }
       res.status(200).send(exercises)

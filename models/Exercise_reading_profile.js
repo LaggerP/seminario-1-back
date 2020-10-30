@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
   };
   Exercise_reading_profile.init({
     exercise_id: DataTypes.INTEGER,
-    profile_id: DataTypes.INTEGER,
+    profile_id: DataTypes.BOOLEAN,
     status: DataTypes.CHAR
   }, {
     sequelize,
