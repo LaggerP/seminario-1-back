@@ -12,7 +12,7 @@ const { ADMIN_ROLE, MEDIC_ROLE, PATIENT_ROLE } = require('../config/config.js')
 const generator = require('generate-password');
 
 module.exports = {
-   async asyncregisterResponsable(req, res) {
+   async registerResponsable(req, res) {
       const _user = await user.findOne({where: {username: req.body.username}});
 
       if (_user !== null) return res.status(409).send({status: 'register error', msg: "username already exist"})
