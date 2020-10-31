@@ -17,8 +17,10 @@ module.exports = (sequelize, DataTypes) => {
     exercise_type_id: DataTypes.INTEGER,
     name: DataTypes.STRING,
     description: DataTypes.STRING,
+    consigna: DataTypes.STRING,
     timer: DataTypes.INTEGER,
-    status: DataTypes.CHAR
+    status: DataTypes.CHAR,
+    image: DataTypes.STRING,
   }, {
     sequelize,
     modelName: 'Exercise_counter',

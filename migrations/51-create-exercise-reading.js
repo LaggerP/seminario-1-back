@@ -21,6 +21,12 @@ module.exports = {
       description: {
         type: Sequelize.STRING
       },
+      consigna: {
+        type: Sequelize.STRING
+      },
+      image: {
+        type: Sequelize.STRING
+      },
       status: {
         type: Sequelize.CHAR
       },
@@ -38,31 +44,41 @@ module.exports = {
         id: 1,
         exercise_type_id: 2,
         name: "Ejercicio Lectura N° 1",
-        description: "Hola, mi nombre es ______ y mi apellido es ______.",
+        consigna: "Hola, mi nombre es ______ y mi apellido es ______.",
+        description: "Lea y complete los espacios en blanco",
+        image:'https://images.unsplash.com/photo-1521714161819-15534968fc5f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80'
       },
       {
         id: 2,
         exercise_type_id: 2,
         name: "Ejercicio Lectura N° 2",
-        description: "Mi deporte favorito es ______ porque juego con mis amigos.",
+        consigna: "Mi deporte favorito es ______ porque juego con mis amigos.",
+        description: "Lea y complete los espacios en blanco",
+        image:'https://images.unsplash.com/photo-1521714161819-15534968fc5f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80'
       },
       {
         id: 3,
         exercise_type_id: 2,
         name: "Ejercicio Lectura N° 3",
-        description: "Los domingos me gusta ir la ______ a jugar con mi perro y mi hermano que se llama ______.",
+        consigna: "Los domingos me gusta ir la ______ a jugar con mi perro y mi hermano que se llama ______.",
+        description: "Lea y complete los espacios en blanco",
+        image:'https://images.unsplash.com/photo-1521714161819-15534968fc5f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80'
       },
       {
         id: 4,
         exercise_type_id: 2,
         name: "Ejercicio Lectura N° 4",
-        description: "Mi comida favorita es ______ y la prepara mi ______ que le sale muy rico.",
+        consigna: "Mi comida favorita es ______ y la prepara mi ______ que le sale muy rico.",
+        description: "Lea y complete los espacios en blanco",
+        image:'https://images.unsplash.com/photo-1521714161819-15534968fc5f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80'
       },
       {
         id: 5,
         exercise_type_id: 2,
         name: "Ejercicio Lectura N° 5",
-        description: "Me gusta jugar mucho al ______ con mi amigo ______, y luego vamos a su casa a tomar la merienda.",
+        consigna: "Me gusta jugar mucho al ______ con mi amigo ______, y luego vamos a su casa a tomar la merienda.",
+        description: "Lea y complete los espacios en blanco",
+        image:'https://images.unsplash.com/photo-1521714161819-15534968fc5f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80'
       }
     ]);
   },

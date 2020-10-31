@@ -26,17 +26,18 @@ module.exports = {
             to: userData.email,
             subject: 'Estas son tus credenciales',
             html: `
-         <p>Hola <b>${userData.username},</b> aquí estan tus credenciales!</p>
-         <p>Puede ingresar con ellas a la plataforma <b>Tratalo</b><p/>
-         <ul>
-            <li>
-               Usuario: ${userData.username}
-            </li>
-            <li>
-               Contraseña: ${userData.password}
-            </li>
-         </ul>
-      `
+               <p>Hola <b>${userData.username},</b> aquí estan tus credenciales!</p>
+               <p>Puede ingresar con ellas a la plataforma <b>Tratalo</b><p/>
+               <ul>
+                  <li>
+                     Usuario: ${userData.username}
+                  </li>
+                  <li>
+                     Contraseña: ${userData.password}
+                  </li>
+               </ul>
+            `,
+           
          };
 
          transporter.sendMail(message, (err, info) => {

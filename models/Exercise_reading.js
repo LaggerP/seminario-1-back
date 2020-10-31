@@ -17,7 +17,9 @@ module.exports = (sequelize, DataTypes) => {
     exercise_type_id: DataTypes.INTEGER,
     name: DataTypes.STRING,
     description: DataTypes.STRING,
-    status: DataTypes.CHAR
+    consigna: DataTypes.STRING,
+    status: DataTypes.CHAR,
+    image: DataTypes.STRING,
   }, {
     sequelize,
     modelName: 'Exercise_reading',
