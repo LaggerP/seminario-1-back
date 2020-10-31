@@ -27,9 +27,7 @@ module.exports = {
          // Mapea y devuelve todos los ejercicios 'Contador' que tiene asignado el perfil
          const counterModule = await exerciseCounter.findAll({});
          await counterModule.map(async exercise => {
-            console.log("ejercicio", exercise.dataValues.id)
             await countingExercisesIds.map (data => {
-            console.log("profile exercise", data)
                if (data.exercise_id === exercise.dataValues.id) {
                   exercise.dataValues.module = "Contador";
                   exercise.dataValues.finished = data.status
