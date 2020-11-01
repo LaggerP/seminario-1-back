@@ -31,6 +31,8 @@ module.exports = (app) => {
    app.get('/api/administrar/exercises', administrarController.getAllExercises);
    app.post('/api/administrar/setExercises', administrarController.assignExercises);
 
+   // AssignTurn Endpoint
+   app.post('/api/administrar/assignTurn', administrarController.assignTurn);
 
    // History Profile-Exercise endpoints
    app.post('/api/history/new', historyProfile.create);

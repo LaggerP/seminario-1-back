@@ -47,6 +47,11 @@ module.exports = {
          :
          res.status(400).send({ msg: 'update profile patient error', status: 400 })
    },
+
+   async assignTurn(req, res) {
+      console.log("Llegué a assignTurn");
+   },
+
    async assignExercises(req, res) {
       const { selectedOption, profile_id } = req.body;
       selectedOption.map(async (option) => {
@@ -93,5 +98,6 @@ module.exports = {
       }
       res.status(200).send(exercises)
    },
+
 
 };
