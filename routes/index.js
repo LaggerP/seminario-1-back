@@ -24,6 +24,7 @@ module.exports = (app) => {
 
    // User Profile endpoints
    app.post('/api/profile/create', userProfileController.createProfile);
+   app.get('/api/profile/:id', userProfileController.getProfileById);
 
    // Medico Responsable administrar view endpoints
    app.get('/api/administrar/list/:id', administrarController.listByMedicId);
