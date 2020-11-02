@@ -2,10 +2,9 @@ const Sequelize = require('sequelize');
 const userProfile = require('../models').User_profile;
 const exerciseCounter = require('../models').Exercise_counter;
 const exerciseReading = require('../models').Exercise_reading;
-
 const exerciseCountingProfile = require('../models').Exercise_counter_profile;
 const exerciseReadingProfile = require('../models').Exercise_reading_profile;
-
+const userProfileController = require ('./UserProfileController.js')
 
 module.exports = {
    async getExercisesByProfile(req, res) {
@@ -48,7 +47,6 @@ module.exports = {
             })
          })
          res.status(201).send({ msg: 'send profiles exercises', profileExercises })
-
       } catch (e) {
          res.status(400).send(e)
       }
@@ -59,15 +57,21 @@ module.exports = {
          return exerciseCountingProfile.update({
             status: 1
          }, { where: { profile_id: profile_id, exercise_id: exercise_id } })
-            .then(async updatedExercise => res.status(201).send(updatedExercise))
+            .then(async updatedExercise => {
+               await userProfileController.updateBenefitsPoints(profile_id);
+               console.log(newPoints)
+               res.status(201).send(updatedExercise)
+            })
             .catch(error => res.status(400).send(error))
       } else if (module === 'Lectura') {
          return exerciseReadingProfile.update({
             status: 1
          }, { where: { profile_id: profile_id, exercise_id: exercise_id } })
-            .then(async updatedExercise => res.status(201).send(updatedExercise))
+            .then(async updatedExercise => {
+               await userProfileController.updateBenefitsPoints(profile_id);
+               res.status(201).send(updatedExercise)
+            })
             .catch(error => res.status(400).send(error))
       }
    }
-
 };

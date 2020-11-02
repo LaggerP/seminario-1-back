@@ -43,8 +43,15 @@ module.exports = {
          dni: dni,
          birthday: birthday,
       }, { where: { id: id } })
-         .then(async updatedProfile => updatedProfile)
+         .then(updatedProfile => updatedProfile)
          .catch(error => res.status(400).send(error))
+   },
+   async updateBenefitsPoints (profileId) {
+      return await userProfile.increment({
+         benefits_points: 30
+      },{where: {id: profileId}})
+      .then(updatedProfile => updatedProfile)
+      .catch(error => res.status(400).send(error))
    }
 
 };
