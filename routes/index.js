@@ -31,8 +31,11 @@ module.exports = (app) => {
    app.get('/api/administrar/exercises', administrarController.getAllExercises);
    app.post('/api/administrar/setExercises', administrarController.assignExercises);
 
-   // AssignTurn Endpoint
+   // AssignTurn endpoints
+   app.get('/api/administrar/listTurns', administrarController.listTurns);
    app.post('/api/administrar/assignTurn', administrarController.assignTurn);
+   app.post('/api/administrar/updateTurn', administrarController.updateTurn);
+   app.post('/api/administrar/deleteTurn', administrarController.deleteTurn);
 
    // History Profile-Exercise endpoints
    app.post('/api/history/new', historyProfile.create);

@@ -5,6 +5,7 @@ const userProfile = require('../models').User_profile;
 const medicoResponsable = require('../models').Medico_responsable;
 const exerciseCounter = require('../models').Exercise_counter;
 const exerciseReading = require('../models').Exercise_reading;
+const turnos = require('../models').Calendario;
 
 
 const exerciseCountingProfile = require('../models').Exercise_counter_profile;
@@ -48,10 +49,65 @@ module.exports = {
          res.status(400).send({ msg: 'update profile patient error', status: 400 })
    },
 
-   async assignTurn(req, res) {
-      console.log("Llegué a assignTurn");
+
+   //list de ConsejosController
+   async listTurns(_, res) {
+      
+      console.log("Llegué a getAllTurns");
+
+      return turnos.findAll({
+         where: {
+             status: 1
+         }
+     })
+         .then(turns => res.status(200).send(turns))
+         .catch(error => res.status(409).send(error))
    },
 
+
+   async assignTurn(req, res) {
+      
+      console.log("Llegué a assignTurn");
+
+      return turnos
+            .create({
+                fecha: req.body.fecha,
+                hora: req.body.hora,
+                comentarios: req.body.comentarios
+            })
+            .then(assignedTurn => res.status(201).send(assignedTurn))
+            .catch(error => res.status(400).send(error))
+   },
+
+
+   async updateTurn(req, res) {
+
+      console.log("Llegué a updateTurn");
+
+      if (req.body.fecha != "") (turnos.update({ fecha: req.body.fecha }, { where: { id: req.body.id } }))
+
+        if (req.body.hora != "") (turnos.update({ hora: req.body.hora }, { where: { id: req.body.id } }))
+
+        return turnos
+            .then(turnUpdated => res.status(200).send(turnUpdated))
+            .catch(error => res.status(400).send(error))
+   },
+
+
+   async deleteTurn(req, res) {
+
+      console.log("Llegué a deleteTurn");
+
+      return turnos
+            .update({
+                status: 0,
+
+            }, { where: { id: req.body.id } })
+            .then(turnDeleted => res.status(200).send(turnDeleted))
+            .catch(error => res.status(400).send(error))
+   },
+
+   
    async assignExercises(req, res) {
       const { selectedOption, profile_id } = req.body;
       selectedOption.map(async (option) => {
