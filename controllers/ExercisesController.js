@@ -1,10 +1,38 @@
 const Sequelize = require('sequelize');
+const moment = require('moment');
 const userProfile = require('../models').User_profile;
 const exerciseCounter = require('../models').Exercise_counter;
 const exerciseReading = require('../models').Exercise_reading;
 const exerciseCountingProfile = require('../models').Exercise_counter_profile;
 const exerciseReadingProfile = require('../models').Exercise_reading_profile;
-const userProfileController = require ('./UserProfileController.js')
+const userProfileController = require ('./UserProfileController.js');
+
+
+
+var CronJob = require('cron').CronJob;
+// Minutos, horas, dia, mes, dia de la semana
+var job = new CronJob('3 * * * * *', async function() {
+   const _countingExercisesByProfile = await exerciseCountingProfile.findAll({ });
+   const _readingExercisesByProfile = await exerciseReadingProfile.findAll({ });
+
+   const _actualDate = moment(new Date()).format('YYYY-MM-DD')
+   _readingExercisesByProfile.map(async date => {
+      const _dbDate = moment(date.dataValues.updatedAt).format('YYYY-MM-DD')
+      if (moment(_actualDate).isAfter(_dbDate, 'day')) {
+         await exerciseReadingProfile.update({ status: null }, { where: { id: date.dataValues.id } })
+      }
+   })
+
+   _countingExercisesByProfile.map(async date => {
+      const _dbDate = moment(date.dataValues.updatedAt).format('YYYY-MM-DD')
+      if (moment(_actualDate).isAfter(_dbDate, 'day')) {
+         await exerciseCountingProfile.update({ status: null }, { where: { id: date.dataValues.id } })
+      }
+   })
+
+}, null, true, 'America/Argentina/Buenos_Aires');
+job.start();
+
 
 module.exports = {
    async getExercisesByProfile(req, res) {
@@ -73,5 +101,6 @@ module.exports = {
             })
             .catch(error => res.status(400).send(error))
       }
-   }
+   },
+
 };

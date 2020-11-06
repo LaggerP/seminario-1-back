@@ -32,7 +32,6 @@ module.exports = (app) => {
    app.get('/api/administrar/exercises', administrarController.getAllExercises);
    app.post('/api/administrar/setExercises', administrarController.assignExercises);
 
-
    // History Profile-Exercise endpoints
    app.post('/api/history/new', historyProfile.create);
    app.get('/api/history/list', historyProfile.list);

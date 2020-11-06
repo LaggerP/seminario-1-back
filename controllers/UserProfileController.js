@@ -27,7 +27,6 @@ module.exports = {
          .catch(error => res.status(400).send(error))
    },
    async getProfileById(req, res) {
-      console.log(req.params.id)
       return userProfile.findOne({ where: { id: req.params.id } })
          .then((profile) => {
             res.status(200).send(profile)
