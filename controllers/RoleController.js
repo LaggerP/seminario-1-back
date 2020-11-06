@@ -28,7 +28,6 @@ module.exports = {
       })
       .then(user => {
          getRole(user.role_id)
-         console.log(user)
          res.status(200).send(user)
       })
          .catch(error => res.status(400).send(error))
