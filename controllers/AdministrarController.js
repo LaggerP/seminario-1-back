@@ -50,7 +50,7 @@ module.exports = {
    async assignExercises(req, res) {
       const { selectedOption, profile_id } = req.body;
       selectedOption.map(async (option) => {
-         const _response = await exerciseCountingProfile.findOne({where:{exercise_id: option.value, profile_id: profile_id}})
+         const _response = await exerciseCountingProfile.findOne({ where: { exercise_id: option.value, profile_id: profile_id } })
          if (option.module === 'Contador') {
             try {
                const created = await exerciseCountingProfile.create({
@@ -58,7 +58,7 @@ module.exports = {
                   profile_id: profile_id
                })
             } catch {
-               res.status(400).send({msg: 'error with assignExercises', status: 400})
+               res.status(400).send({ msg: 'error with assignExercises', status: 400 })
             }
 
          } else if (option.module === 'Lectura') {
@@ -68,13 +68,13 @@ module.exports = {
                   profile_id: profile_id
                })
             } catch {
-               res.status(400).send({msg: 'error with assignExercises', status: 400})
+               res.status(400).send({ msg: 'error with assignExercises', status: 400 })
             }
          } else {
-            res.status(400).send({msg: 'error with assignExercises, all exist!', status: 400})
+            res.status(400).send({ msg: 'error with assignExercises, all exist!', status: 400 })
          }
       })
-      res.status(201).send({msg: 'all exercises was assigned', status: 201})
+      res.status(201).send({ msg: 'all exercises was assigned', status: 201 })
    },
    async getAllExercises(_, res) {
       const counterModule = await exerciseCounter.findAll({});
@@ -94,4 +94,20 @@ module.exports = {
       res.status(200).send(exercises)
    },
 
+   async deleteProfile(req, res) {
+      try {
+         
+         await userProfile.destroy({ where: { id: req.params.id } });
+         await exerciseCounter.destroy({ where: { id: req.params.id } });
+         await exerciseReading.destroy({ where: { id: req.params.id } });
+         await exerciseCountingProfile.destroy({  where: { id: req.params.id } })
+         await exerciseReadingProfile.destroy({  where: { id: req.params.id } })
+         
+         res.status(201).send({msg:"perfil borrado con exito"})
+      } catch (error) {
+         res.status(500).send({ msg: "Error al borrar perfil" })
+      }
+
+
+   }
 };
