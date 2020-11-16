@@ -96,18 +96,46 @@ module.exports = {
 
    async deleteProfile(req, res) {
       try {
-         
          await userProfile.destroy({ where: { id: req.params.id } });
          await exerciseCounter.destroy({ where: { id: req.params.id } });
          await exerciseReading.destroy({ where: { id: req.params.id } });
-         await exerciseCountingProfile.destroy({  where: { id: req.params.id } })
-         await exerciseReadingProfile.destroy({  where: { id: req.params.id } })
-         
-         res.status(201).send({msg:"perfil borrado con exito"})
+         await exerciseCountingProfile.destroy({ where: { id: req.params.id } })
+         await exerciseReadingProfile.destroy({ where: { id: req.params.id } })
+
+         res.status(201).send({ msg: "perfil borrado con exito" })
       } catch (error) {
          res.status(500).send({ msg: "Error al borrar perfil" })
       }
 
+
+   },
+
+   async deleteResponsable(req, res) {
+      try {
+         let i = 0;
+         const profiles = await profileController.getAllProfilesByUser(req.params.id);
+
+         for (i; i < profiles.length; i++) {
+            try {
+               await userProfile.destroy({ where: { id: profiles[i].id } });
+               await exerciseCounter.destroy({ where: { id: profiles[i].id } });
+               await exerciseReading.destroy({ where: { id: profiles[i].id } });
+               await exerciseCountingProfile.destroy({ where: { id: profiles[i].id } })
+               await exerciseReadingProfile.destroy({ where: { id: profiles[i].id } })
+
+               res.status(201).send({ msg: "perfil borrado con exito" })
+            } catch (error) {
+               res.status(500).send({ msg: "Error al borrar perfil" })
+            }
+         };
+
+         await user.destroy({ where: { id: req.params.id } });
+         await medicoResponsable.destroy({ where: {responsable_id: req.params.id} });
+
+         res.status(201).send({ msg: "responsable borrado con exito" })
+      } catch (error) {
+         res.status(500).send({ msg: "Error al borrar responsable" })
+      }
 
    }
 };
