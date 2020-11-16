@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
     hora: DataTypes.TIME,
     comentarios: DataTypes.STRING,
     status: DataTypes.CHAR,
-    doctor_id: DataTypes.INTEGER,
+    user_id: DataTypes.INTEGER,
     profile_id: DataTypes.INTEGER,
   }, {
     sequelize,

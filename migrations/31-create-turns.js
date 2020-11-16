@@ -24,7 +24,7 @@ module.exports = {
         defaultValue: 1,
 		    type: Sequelize.CHAR
       },
-      doctor_id: {
+      user_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {

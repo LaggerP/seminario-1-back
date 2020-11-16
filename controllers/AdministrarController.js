@@ -5,7 +5,7 @@ const userProfile = require('../models').User_profile;
 const medicoResponsable = require('../models').Medico_responsable;
 const exerciseCounter = require('../models').Exercise_counter;
 const exerciseReading = require('../models').Exercise_reading;
-const turnos = require('../models').Calendario;
+const turnos = require('../models').Turnos;
 
 
 const exerciseCountingProfile = require('../models').Exercise_counter_profile;
@@ -50,14 +50,15 @@ module.exports = {
    },
 
 
-   //list de ConsejosController
-   async listTurns(_, res) {
+   //No sé como hacer acá, debería tener 2 listTurns? Uno para médico que sería este y otro para paciente?
+   async listTurns(req, res) {
       
-      console.log("Llegué a getAllTurns");
+      console.log("Llegué al listTurns");
 
       return turnos.findAll({
          where: {
-             status: 1
+            user_id: req.body.user_id,
+            status: 1
          }
      })
          .then(turns => res.status(200).send(turns))
@@ -73,7 +74,9 @@ module.exports = {
             .create({
                 fecha: req.body.fecha,
                 hora: req.body.hora,
-                comentarios: req.body.comentarios
+                comentarios: req.body.comentarios,
+                user_id: req.body.user_id,
+                profile_id: req.body.profile_id
             })
             .then(assignedTurn => res.status(201).send(assignedTurn))
             .catch(error => res.status(400).send(error))
@@ -86,11 +89,13 @@ module.exports = {
 
       if (req.body.fecha != "") (turnos.update({ fecha: req.body.fecha }, { where: { id: req.body.id } }))
 
-        if (req.body.hora != "") (turnos.update({ hora: req.body.hora }, { where: { id: req.body.id } }))
+      if (req.body.hora != "") (turnos.update({ hora: req.body.hora }, { where: { id: req.body.id } }))
 
-        return turnos
-            .then(turnUpdated => res.status(200).send(turnUpdated))
-            .catch(error => res.status(400).send(error))
+      if (req.body.comentarios != "") (turnos.update({ comentarios: req.body.comentarios }, { where: { id: req.body.id } }))
+
+      return turnos
+         .then(turnUpdated => res.status(200).send(turnUpdated))
+         .catch(error => res.status(400).send(error))
    },
 
 
