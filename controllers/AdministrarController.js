@@ -97,10 +97,8 @@ module.exports = {
    async deleteProfile(req, res) {
       try {
          await userProfile.destroy({ where: { id: req.params.id } });
-         await exerciseCounter.destroy({ where: { id: req.params.id } });
-         await exerciseReading.destroy({ where: { id: req.params.id } });
-         await exerciseCountingProfile.destroy({ where: { id: req.params.id } })
-         await exerciseReadingProfile.destroy({ where: { id: req.params.id } })
+         await exerciseCountingProfile.destroy({ where: { profile_id: req.params.id } })
+         await exerciseReadingProfile.destroy({ where: { profile_id: req.params.id } })
 
          res.status(201).send({ msg: "perfil borrado con exito" })
       } catch (error) {
@@ -118,11 +116,9 @@ module.exports = {
          for (i; i < profiles.length; i++) {
             try {
                await userProfile.destroy({ where: { id: profiles[i].id } });
-               await exerciseCounter.destroy({ where: { id: profiles[i].id } });
-               await exerciseReading.destroy({ where: { id: profiles[i].id } });
-               await exerciseCountingProfile.destroy({ where: { id: profiles[i].id } })
-               await exerciseReadingProfile.destroy({ where: { id: profiles[i].id } })
-
+               await exerciseCountingProfile.destroy({ where: { profile_id: profiles[i].id } })
+               await exerciseReadingProfile.destroy({ where: { profile_id: profiles[i].id } })
+      
                res.status(201).send({ msg: "perfil borrado con exito" })
             } catch (error) {
                res.status(500).send({ msg: "Error al borrar perfil" })
