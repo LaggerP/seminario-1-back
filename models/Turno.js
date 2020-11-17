@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
     profile_id: DataTypes.INTEGER,
   }, {
     sequelize,
-    modelName: 'Turnos',
+    modelName: 'Turno',
     timestamps: true,
   });
   return Turno;

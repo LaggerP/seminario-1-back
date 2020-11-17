@@ -26,6 +26,13 @@ module.exports = {
          })
          .catch(error => res.status(400).send(error))
    },
+   async getProfileById(req, res) {
+      return userProfile.findOne({ where: { id: req.params.id } })
+         .then((profile) => {
+            res.status(200).send(profile)
+         })
+         .catch(error => res.status(400).send(error))
+   },
    updateProfilePoints(dataToUpdate, res) {
       const { profile_points, necessary_points, id_profile } = dataToUpdate
       if (profile_points - necessary_points < 0) return res.status(409).send({ status: 'benefit update error', msg: "insufficient points" })
@@ -43,8 +50,15 @@ module.exports = {
          dni: dni,
          birthday: birthday,
       }, { where: { id: id } })
-         .then(async updatedProfile => updatedProfile)
+         .then(updatedProfile => updatedProfile)
          .catch(error => res.status(400).send(error))
+   },
+   async updateBenefitsPoints (profileId) {
+      return await userProfile.increment({
+         benefits_points: 30
+      },{where: {id: profileId}})
+      .then(updatedProfile => updatedProfile)
+      .catch(error => res.status(400).send(error))
    }
 
 };

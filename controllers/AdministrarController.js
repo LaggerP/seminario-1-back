@@ -5,14 +5,15 @@ const userProfile = require('../models').User_profile;
 const medicoResponsable = require('../models').Medico_responsable;
 const exerciseCounter = require('../models').Exercise_counter;
 const exerciseReading = require('../models').Exercise_reading;
-const turnos = require('../models').Turnos;
-
+const turnos = require('../models').Turno;
 
 const exerciseCountingProfile = require('../models').Exercise_counter_profile;
 const exerciseReadingProfile = require('../models').Exercise_reading_profile;
 
-
 const profileController = require('../controllers/UserProfileController')
+
+const MEDIC_ROLE  = require('../config/config').MEDIC_ROLE;
+const PATIENT_ROLE  = require('../config/config').PATIENT_ROLE;
 
 module.exports = {
    async listByMedicId(req, res) {
@@ -49,74 +50,23 @@ module.exports = {
          res.status(400).send({ msg: 'update profile patient error', status: 400 })
    },
 
-
-   //No sé como hacer acá, debería tener 2 listTurns? Uno para médico que sería este y otro para paciente?
-   async listTurns(req, res) {
-      
-      console.log("Llegué al listTurns");
-
-      return turnos.findAll({
-         where: {
-            user_id: req.body.user_id,
-            status: 1
-         }
-     })
-         .then(turns => res.status(200).send(turns))
-         .catch(error => res.status(409).send(error))
-   },
-
-
    async assignTurn(req, res) {
-      
-      console.log("Llegué a assignTurn");
-
       return turnos
-            .create({
-                fecha: req.body.fecha,
-                hora: req.body.hora,
-                comentarios: req.body.comentarios,
-                user_id: req.body.user_id,
-                profile_id: req.body.profile_id
-            })
-            .then(assignedTurn => res.status(201).send(assignedTurn))
-            .catch(error => res.status(400).send(error))
-   },
-
-
-   async updateTurn(req, res) {
-
-      console.log("Llegué a updateTurn");
-
-      if (req.body.fecha != "") (turnos.update({ fecha: req.body.fecha }, { where: { id: req.body.id } }))
-
-      if (req.body.hora != "") (turnos.update({ hora: req.body.hora }, { where: { id: req.body.id } }))
-
-      if (req.body.comentarios != "") (turnos.update({ comentarios: req.body.comentarios }, { where: { id: req.body.id } }))
-
-      return turnos
-         .then(turnUpdated => res.status(200).send(turnUpdated))
+         .create({
+            fecha: req.body.fecha,
+            hora: req.body.hora,
+            comentarios: req.body.comentarios,
+            user_id: req.body.user_id,
+            profile_id: req.body.profile_id
+         })
+         .then(assignedTurn => res.status(201).send({status: 201}))
          .catch(error => res.status(400).send(error))
    },
 
-
-   async deleteTurn(req, res) {
-
-      console.log("Llegué a deleteTurn");
-
-      return turnos
-            .update({
-                status: 0,
-
-            }, { where: { id: req.body.id } })
-            .then(turnDeleted => res.status(200).send(turnDeleted))
-            .catch(error => res.status(400).send(error))
-   },
-
-   
    async assignExercises(req, res) {
       const { selectedOption, profile_id } = req.body;
       selectedOption.map(async (option) => {
-         const _response = await exerciseCountingProfile.findOne({where:{exercise_id: option.value, profile_id: profile_id}})
+         const _response = await exerciseCountingProfile.findOne({ where: { exercise_id: option.value, profile_id: profile_id } })
          if (option.module === 'Contador') {
             try {
                const created = await exerciseCountingProfile.create({
@@ -124,7 +74,7 @@ module.exports = {
                   profile_id: profile_id
                })
             } catch {
-               res.status(400).send({msg: 'error with assignExercises', status: 400})
+               res.status(400).send({ msg: 'error with assignExercises', status: 400 })
             }
 
          } else if (option.module === 'Lectura') {
@@ -134,14 +84,15 @@ module.exports = {
                   profile_id: profile_id
                })
             } catch {
-               res.status(400).send({msg: 'error with assignExercises', status: 400})
+               res.status(400).send({ msg: 'error with assignExercises', status: 400 })
             }
          } else {
-            res.status(400).send({msg: 'error with assignExercises, all exist!', status: 400})
+            res.status(400).send({ msg: 'error with assignExercises, all exist!', status: 400 })
          }
       })
-      res.status(201).send({msg: 'all exercises was assigned', status: 201})
+      res.status(201).send({ msg: 'all exercises was assigned', status: 201 })
    },
+
    async getAllExercises(_, res) {
       const counterModule = await exerciseCounter.findAll({});
       const readingModule = await exerciseReading.findAll({});
@@ -160,5 +111,38 @@ module.exports = {
       res.status(200).send(exercises)
    },
 
+   async deleteProfile(req, res) {
+      try {
+         await userProfile.destroy({ where: { id: req.params.id } });
+         await exerciseCountingProfile.destroy({ where: { profile_id: req.params.id } })
+         await exerciseReadingProfile.destroy({ where: { profile_id: req.params.id } })
+         res.status(201).send({ msg: "perfil borrado con exito" })
+      } catch (error) {
+         res.status(500).send({ msg: "Error al borrar perfil" })
+      }
+   },
 
+   async deleteResponsable(req, res) {
+      try {
+         let i = 0;
+         const profiles = await profileController.getAllProfilesByUser(req.params.id);
+         for (i; i < profiles.length; i++) {
+            try {
+               await userProfile.destroy({ where: { id: profiles[i].id } });
+               await exerciseCountingProfile.destroy({ where: { profile_id: profiles[i].id } })
+               await exerciseReadingProfile.destroy({ where: { profile_id: profiles[i].id } })
+               res.status(201).send({ msg: "perfil borrado con exito" })
+            } catch (error) {
+               res.status(500).send({ msg: "Error al borrar perfil" })
+            }
+         };
+
+         await user.destroy({ where: { id: req.params.id } });
+         await medicoResponsable.destroy({ where: { responsable_id: req.params.id } });
+
+         res.status(201).send({ msg: "responsable borrado con exito" })
+      } catch (error) {
+         res.status(500).send({ msg: "Error al borrar responsable" })
+      }
+   }
 };
