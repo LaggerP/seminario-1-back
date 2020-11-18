@@ -24,11 +24,11 @@ module.exports = {
    async updateTurn(req, res) {
       console.log("Llegué a updateTurn");
 
-      if (req.body.fecha != "") (turnos.update({ fecha: req.body.fecha }, { where: { id: req.body.id } }))
+      if (req.body.turn_date != "") (turnos.update({ fecha: req.body.turn_date }, { where: { id: req.body.id } }))
 
-      if (req.body.hora != "") (turnos.update({ hora: req.body.hora }, { where: { id: req.body.id } }))
+      if (req.body.turn_time != "") (turnos.update({ hora: req.body.turn_time }, { where: { id: req.body.id } }))
 
-      if (req.body.comentarios != "") (turnos.update({ comentarios: req.body.comentarios }, { where: { id: req.body.id } }))
+      if (req.body.comments != "") (turnos.update({ comentarios: req.body.comments }, { where: { id: req.body.id } }))
 
       return turnos
          .then(turnUpdated => res.status(200).send(turnUpdated))
