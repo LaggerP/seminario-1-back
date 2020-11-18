@@ -5,13 +5,15 @@ const userProfile = require('../models').User_profile;
 const medicoResponsable = require('../models').Medico_responsable;
 const exerciseCounter = require('../models').Exercise_counter;
 const exerciseReading = require('../models').Exercise_reading;
-
+const turnos = require('../models').Turno;
 
 const exerciseCountingProfile = require('../models').Exercise_counter_profile;
 const exerciseReadingProfile = require('../models').Exercise_reading_profile;
 
-
 const profileController = require('../controllers/UserProfileController')
+
+const MEDIC_ROLE  = require('../config/config').MEDIC_ROLE;
+const PATIENT_ROLE  = require('../config/config').PATIENT_ROLE;
 
 module.exports = {
    async listByMedicId(req, res) {
@@ -47,6 +49,20 @@ module.exports = {
          :
          res.status(400).send({ msg: 'update profile patient error', status: 400 })
    },
+
+   async assignTurn(req, res) {
+      return turnos
+         .create({
+            fecha: req.body.fecha,
+            hora: req.body.hora,
+            comentarios: req.body.comentarios,
+            user_id: req.body.user_id,
+            profile_id: req.body.profile_id
+         })
+         .then(assignedTurn => res.status(201).send({status: 201}))
+         .catch(error => res.status(400).send(error))
+   },
+
    async assignExercises(req, res) {
       const { selectedOption, profile_id } = req.body;
       selectedOption.map(async (option) => {
@@ -76,6 +92,7 @@ module.exports = {
       })
       res.status(201).send({ msg: 'all exercises was assigned', status: 201 })
    },
+
    async getAllExercises(_, res) {
       const counterModule = await exerciseCounter.findAll({});
       const readingModule = await exerciseReading.findAll({});
@@ -99,32 +116,28 @@ module.exports = {
          await userProfile.destroy({ where: { id: req.params.id } });
          await exerciseCountingProfile.destroy({ where: { profile_id: req.params.id } })
          await exerciseReadingProfile.destroy({ where: { profile_id: req.params.id } })
-
          res.status(201).send({ msg: "perfil borrado con exito" })
       } catch (error) {
          res.status(500).send({ msg: "Error al borrar perfil" })
       }
-
-
    },
 
-   async deleteResponsable(req, res) {
-      try {
-         const profiles = await profileController.getAllProfilesByUser(req.params.id);
+    async deleteResponsable(req, res) {
+        try {
+           const profiles = await profileController.getAllProfilesByUser(req.params.id);
 
-         for (const profile of profiles) {
-            await userProfile.destroy({ where: { id: profile.id } });
-            await exerciseCountingProfile.destroy({ where: { profile_id: profile.id } })
-            await exerciseReadingProfile.destroy({ where: { profile_id: profile.id } })
-         };
+           for (const profile of profiles) {
+              await userProfile.destroy({ where: { id: profile.id } });
+              await exerciseCountingProfile.destroy({ where: { profile_id: profile.id } })
+              await exerciseReadingProfile.destroy({ where: { profile_id: profile.id } })
+           };
 
-         await medicoResponsable.destroy({ where: { responsable_id: req.params.id } });
-         await user.destroy({ where: { id: req.params.id } });
+           await medicoResponsable.destroy({ where: { responsable_id: req.params.id } });
+           await user.destroy({ where: { id: req.params.id } });
 
-         res.status(201).send({ msg: "responsable borrado con exito" })
-      } catch (error) {
-         res.status(500).send({ msg: "Error al borrar responsable" })
-      }
-
+           res.status(201).send({ msg: "responsable borrado con exito" })
+        } catch (error) {
+           res.status(500).send({ msg: "Error al borrar responsable" })
+        }
    }
 };
