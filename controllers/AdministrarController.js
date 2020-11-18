@@ -116,6 +116,7 @@ module.exports = {
          await userProfile.destroy({ where: { id: req.params.id } });
          await exerciseCountingProfile.destroy({ where: { profile_id: req.params.id } })
          await exerciseReadingProfile.destroy({ where: { profile_id: req.params.id } })
+         await turnos.destroy({ where: { profile_id: req.params.id } })
          res.status(201).send({ msg: "perfil borrado con exito" })
       } catch (error) {
          res.status(500).send({ msg: "Error al borrar perfil" })
@@ -130,6 +131,7 @@ module.exports = {
               await userProfile.destroy({ where: { id: profile.id } });
               await exerciseCountingProfile.destroy({ where: { profile_id: profile.id } })
               await exerciseReadingProfile.destroy({ where: { profile_id: profile.id } })
+              await turnos.destroy({ where: { profile_id: profile.id } })
            };
 
            await medicoResponsable.destroy({ where: { responsable_id: req.params.id } });
