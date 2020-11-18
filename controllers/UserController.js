@@ -13,10 +13,11 @@ const generator = require('generate-password');
 
 module.exports = {
    async registerResponsable(req, res) {
-      const _user = await user.findOne({where: {username: req.body.username}});
 
-      if (_user !== null) return res.status(409).send({status: 'register error', msg: "username already exist"})
-      
+      const _user = await user.findOne({ where: { username: req.body.username } });
+
+      if (_user !== null) return res.status(409).send({ status: 'register error', msg: "username already exist" })
+
       try {
          const _generatedPwd = await generator.generate({
             length: 10,
@@ -46,12 +47,18 @@ module.exports = {
          // send username and password to user account
          await mailerController.sendRegisterEmail(dataToSend)
 
-         const currentProfile = req.body.profiles
-         if (Object.keys(currentProfile).length !== 0 || currentProfile.length > 0) {
-            currentProfile.user_id = userCollection.dataValues.id;
-            const profileCollection = await profileController.createProfile(currentProfile)
-            const response = Object.keys(profileCollection).length
-            response !== 0 ? res.status(201).send({ msg: "user and profile was created" }) : res.status(401).send({ msg: "user/profile creation error" })
+         const profiles = req.body.profiles
+         if (Object.keys(profiles).length !== 0 || profiles.length > 0) {
+            try {
+               for (const profile of profiles) {
+                  profile.user_id = userCollection.dataValues.id;
+                  await profileController.createProfile(profile)
+               }
+               res.status(201).send({ msg: "user and profile was created" })
+            } catch (e) {
+               res.status(401).send({ msg: "user/profile creation error" })
+            }
+
          } else {
             res.status(201).send({ msg: "user created" });
          }
@@ -59,7 +66,7 @@ module.exports = {
       catch (e) {
          res.status(400).send(e);
       }
-      
+
    },
    async login(req, res) {
       const _userData = {
@@ -68,13 +75,13 @@ module.exports = {
       }
 
       try {
-         const _user = await user.findOne({where: {username: _userData.username}});
+         const _user = await user.findOne({ where: { username: _userData.username } });
          // get token from user (if exists)
          const _loginToken = await auth.loginUser(_userData);
 
          if (_user.dataValues.role_id === PATIENT_ROLE) {
-         // get all profiles associated to user account
-            const _profiles =  await profileController.getAllProfilesByUser(_user.dataValues.id)
+            // get all profiles associated to user account
+            const _profiles = await profileController.getAllProfilesByUser(_user.dataValues.id)
             return res.status(200).json({ profiles: _profiles, token: _loginToken, msg: "Success login", rol: _user.dataValues.role_id, id: _user.dataValues.id })
          }
 

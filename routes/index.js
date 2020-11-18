@@ -9,6 +9,7 @@ const administrarController = require('../controllers/AdministrarController');
 const exercisesController = require ('../controllers/ExercisesController')
 const historyProfile = require ('../controllers/HistoryProfileExerciseController');
 const consejosController = require('../controllers/ConsejosController');
+const turnosController = require('../controllers/TurnosController')
 
 
 module.exports = (app) => {
@@ -31,7 +32,17 @@ module.exports = (app) => {
    app.post('/api/administrar/update', administrarController.updatePatient);
    app.get('/api/administrar/exercises', administrarController.getAllExercises);
    app.post('/api/administrar/setExercises', administrarController.assignExercises);
+   app.post('/api/administrar/assignTurn', administrarController.assignTurn);
 
+   // Turnos endpoints
+   app.get('/api/turnos/listProfileTurns/:id', turnosController.profileTurns);
+   app.get('/api/turnos/listMedicTurns/:id', turnosController.medicTurns);
+   app.post('/api/turnos/updateTurn', turnosController.updateTurn);
+   app.post('/api/turnos/deleteTurn', turnosController.deleteTurn);
+
+   // Administrar endpoins
+   app.delete('/api/administrar/delete/profile/:id', administrarController.deleteProfile);
+   app.delete('/api/administrar/delete/responsable/:id', administrarController.deleteResponsable);
 
    // History Profile-Exercise endpoints
    app.post('/api/history/new', historyProfile.create);
