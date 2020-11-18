@@ -81,13 +81,12 @@ module.exports = {
    },
    async updateStatus(req, res) {
       const { exercise_id, profile_id, module } = req.body;
-      if (module === 'Contador') {
+      if (module === "Contador") {
          return exerciseCountingProfile.update({
             status: 1
          }, { where: { profile_id: profile_id, exercise_id: exercise_id } })
             .then(async updatedExercise => {
                await userProfileController.updateBenefitsPoints(profile_id);
-               console.log(newPoints)
                res.status(201).send(updatedExercise)
             })
             .catch(error => res.status(400).send(error))
