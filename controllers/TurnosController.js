@@ -22,27 +22,21 @@ module.exports = {
    },
 
    async updateTurn(req, res) {
-      console.log("Llegué a updateTurn");
 
-      if (req.body.turn_date != "") (turnos.update({ fecha: req.body.turn_date }, { where: { id: req.body.id } }))
+      if (req.body.turn_date != "") (await turnos.update({ fecha: req.body.turn_date }, { where: { id: req.body.id } }))
 
-      if (req.body.turn_time != "") (turnos.update({ hora: req.body.turn_time }, { where: { id: req.body.id } }))
+      if (req.body.turn_time != "") (await turnos.update({ hora: req.body.turn_time }, { where: { id: req.body.id } }))
 
-      if (req.body.comments != "") (turnos.update({ comentarios: req.body.comments }, { where: { id: req.body.id } }))
+      if (req.body.comments != "") (await turnos.update({ comentarios: req.body.comments }, { where: { id: req.body.id } }))
 
-      return turnos
-         .then(turnUpdated => res.status(200).send(turnUpdated))
-         .catch(error => res.status(400).send(error))
+      res.status(200).send({msg:"Turno actualizado"})
    },
 
 
    async deleteTurn(req, res) {
-      console.log(req.body.id)
-      console.log("Llegué a deleteTurn");
       return turnos
          .update({
             status: 0,
-
          }, { where: { id: req.body.id } })
          .then(turnDeleted => res.status(201).send(turnDeleted))
          .catch(error => res.status(400).send(error))
