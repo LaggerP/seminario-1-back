@@ -122,27 +122,22 @@ module.exports = {
       }
    },
 
-   async deleteResponsable(req, res) {
-      try {
-         let i = 0;
-         const profiles = await profileController.getAllProfilesByUser(req.params.id);
-         for (i; i < profiles.length; i++) {
-            try {
-               await userProfile.destroy({ where: { id: profiles[i].id } });
-               await exerciseCountingProfile.destroy({ where: { profile_id: profiles[i].id } })
-               await exerciseReadingProfile.destroy({ where: { profile_id: profiles[i].id } })
-               res.status(201).send({ msg: "perfil borrado con exito" })
-            } catch (error) {
-               res.status(500).send({ msg: "Error al borrar perfil" })
-            }
-         };
+    async deleteResponsable(req, res) {
+        try {
+           const profiles = await profileController.getAllProfilesByUser(req.params.id);
 
-         await user.destroy({ where: { id: req.params.id } });
-         await medicoResponsable.destroy({ where: { responsable_id: req.params.id } });
+           for (const profile of profiles) {
+              await userProfile.destroy({ where: { id: profile.id } });
+              await exerciseCountingProfile.destroy({ where: { profile_id: profile.id } })
+              await exerciseReadingProfile.destroy({ where: { profile_id: profile.id } })
+           };
 
-         res.status(201).send({ msg: "responsable borrado con exito" })
-      } catch (error) {
-         res.status(500).send({ msg: "Error al borrar responsable" })
-      }
+           await medicoResponsable.destroy({ where: { responsable_id: req.params.id } });
+           await user.destroy({ where: { id: req.params.id } });
+
+           res.status(201).send({ msg: "responsable borrado con exito" })
+        } catch (error) {
+           res.status(500).send({ msg: "Error al borrar responsable" })
+        }
    }
 };

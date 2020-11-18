@@ -4,6 +4,9 @@ const userProfile = require('../models').User_profile;
 module.exports = {
    async createProfile(req, res) {
       try {
+         if (req.user_id == undefined){
+            req = req.body
+         }
          return await userProfile.create({
             user_id: req.user_id,
             dni: req.dni,
