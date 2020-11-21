@@ -11,7 +11,7 @@ const userProfileController = require ('./UserProfileController.js');
 
 var CronJob = require('cron').CronJob;
 // Minutos, horas, dia, mes, dia de la semana
-var job = new CronJob('0 12 * * * *', async function() {
+var job = new CronJob('0 12 * * *', async function() {
    const _countingExercisesByProfile = await exerciseCountingProfile.findAll({ });
    const _readingExercisesByProfile = await exerciseReadingProfile.findAll({ });
 
