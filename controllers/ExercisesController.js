@@ -42,12 +42,12 @@ module.exports = {
       let profileExercises = [];
       const _countingExercisesByProfile = await exerciseCountingProfile.findAll({ where: { profile_id: req.params.id } })
       await _countingExercisesByProfile.map(data => {
-         countingExercisesIds.push({exercise_id: data.dataValues.exercise_id, status: data.dataValues.status})
+         countingExercisesIds.push({exercise_id: data.dataValues.exercise_id, status: data.dataValues.status, lastdate: data.dataValues.updatedAt})
       })
 
       const _readingExercisesByProfile = await exerciseReadingProfile.findAll({ where: { profile_id: req.params.id } })
       await _readingExercisesByProfile.map(data => {
-         readingExercisesIds.push({exercise_id: data.dataValues.exercise_id, status: data.dataValues.status})
+         readingExercisesIds.push({exercise_id: data.dataValues.exercise_id, status: data.dataValues.status, lastdate: data.dataValues.updatedAt})
       })
 
       try {
@@ -57,7 +57,8 @@ module.exports = {
             await countingExercisesIds.map (data => {
                if (data.exercise_id === exercise.dataValues.id) {
                   exercise.dataValues.module = "Contador";
-                  exercise.dataValues.finished = data.status
+                  exercise.dataValues.finished = data.status;
+                  exercise.dataValues.lastdate = data.lastdate;
                   profileExercises.push(exercise.dataValues)
                }
             })
@@ -69,7 +70,8 @@ module.exports = {
             await readingExercisesIds.map (data => {
                if (data.exercise_id === exercise.dataValues.id) {
                   exercise.dataValues.module = "Lectura";
-                  exercise.dataValues.finished = data.status
+                  exercise.dataValues.finished = data.status;
+                  exercise.dataValues.lastdate = data.lastdate;
                   profileExercises.push(exercise.dataValues)
                }
             })
